@@ -21,7 +21,6 @@ public class OpenApiConfig {
                         .description(appDescription)
                         .license(new License().name("Apache 2.0")
                                 .url("http://springdoc.org"))
-                        //Contact information about organization of exposed API
                         .contact(new Contact().name("TeachMeSkills")
                                 .email("tms@gmail.com")));
     }
