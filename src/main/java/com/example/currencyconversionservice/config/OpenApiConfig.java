@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
+//Some small changs
 @Configuration
 public class OpenApiConfig {
     @Bean
