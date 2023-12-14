@@ -23,19 +23,18 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx inspect default --bootstrap
-          docker buildx build --file Dockerfile -t szakrevskaya/cc-image:$GITHUB_REF_NAME-$GITHUB_SHA --load .
+          docker buildx build --file Dockerfile -t szakrevskaya/cc-image:latest --load .
 
       - name: Push Docker image to Docker Hub
         run: |
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username szakrevskaya --password-stdin
-          docker push szakrevskaya/cc-image:$GITHUB_REF_NAME-$GITHUB_SHA
+          docker push szakrevskaya/cc-image:latest
 
       - name: Update manifest file
         run: |    
-          # Assuming you have a manifest file named k8s.yaml
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@gmail.com"
-          yq eval '.spec.template.spec.containers[0].image = "szakrevskaya/cc-image:${{ env.GITHUB_BRANCH }}"' -i deployments/deployment.yml
+          yq eval '.spec.template.spec.containers[0].image = "szakrevskaya/cc-image:latest"' -i deployments/deployment.yml
           
           git add .
           git commit -m "updating newer image"
