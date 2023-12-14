@@ -35,7 +35,7 @@ jobs:
           # Assuming you have a manifest file named k8s.yaml
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@gmail.com"
-          yq eval '.spec.template.spec.containers[0].image = "akashmore947/my-app-image:${{ env.GITHUB_BRANCH }}"' -i deployments/deployment.yml
+          yq eval '.spec.template.spec.containers[0].image = "szakrevskaya/cc-image:${{ env.GITHUB_BRANCH }}"' -i deployments/deployment.yml
           
           git add .
           git commit -m "updating newer image"
