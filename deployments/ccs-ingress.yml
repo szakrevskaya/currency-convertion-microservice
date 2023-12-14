@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sz-currency-converter-ingress
+spec:
+  rules:
+  - host: a43c5efde85d44721af8bb74e8d8529d-148657450.us-east-1.elb.amazonaws.com
+    http:
+      paths:        
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sz-currency-converter-service
+            port:
+              number: 80
