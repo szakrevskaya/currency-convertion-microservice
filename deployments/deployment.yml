@@ -16,4 +16,4 @@ spec:
         - name: sz-currency-converter-service
           image: szakrevskaya/cc-image:latest
           ports:
-          - containerPort: 8100
+            - containerPort: 8100
