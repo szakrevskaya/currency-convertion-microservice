@@ -1,0 +1,41 @@
+name: Build, Push, and Deploy
+
+on:
+  push:
+    branches:
+      - devops
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Set env
+        run: echo "GITHUB_BRANCH=$(echo $GITHUB_REF_NAME-$GITHUB_SHA)" >> $GITHUB_ENV  
+ 
+      - name: Build Docker image
+        run: |
+          docker buildx create --use
+          docker buildx inspect default --bootstrap
+          docker buildx build --file Dockerfile -t szakrevskaya/cc-image:latest --load .
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          echo ${{ secrets.DOCKER_HUB_SECRET }} | docker login --username szakrevskaya --password-stdin
+          docker push szakrevskaya/cc-image:latest
+
+      - name: Update manifest file
+        run: |    
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@gmail.com"
+          yq eval '.spec.template.spec.containers[0].image = "szakrevskaya/cc-image:latest"' -i deployments/deployment.yml
+          
+          git add .
+          git commit -m "updating newer image"
+          git push --set-upstream origin master
