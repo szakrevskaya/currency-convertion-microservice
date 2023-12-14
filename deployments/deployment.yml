@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sz-currency-converter-deployment
+spec:
+  selector:
+    matchLabels:
+      app: sz-currency-converter-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sz-currency-converter-deployment
+    spec:
+      containers:
+        - name: sz-currency-converter-service
+          image: szakrevskaya/cc-image::latest
+          ports:
+          - containerPort: 8100

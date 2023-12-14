@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sz-currency-converter-service
+spec:
+  selector:
+    app: sz-currency-converter-deployment
+  ports:
+    - port: 80
+      targetPort: 8100
+  type: LoadBalancer
