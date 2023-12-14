@@ -3,7 +3,7 @@ name: Build, Push, and Deploy
 on:
   push:
     branches:
-      - master
+      - devops
 
 jobs:
   build-and-deploy:
